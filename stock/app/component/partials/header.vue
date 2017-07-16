@@ -1,6 +1,6 @@
 <template>
   <el-row class="header">
-    <el-menu theme="dark" default-active="1" class="el-menu-demo" mode="horizontal" @select="select">
+    <el-menu theme="dark" default-active="1" mode="horizontal">
       <el-menu-item index="1" class="title">❤&nbsp股票助手</el-menu-item>
       <!--<router-link class="el-menu-item" to="/home">首页</router-link>-->
       <!--<el-submenu index="2">-->
@@ -14,7 +14,7 @@
 </template>
 
 <style>
-  .el-menu {
+  .header .el-menu {
     border-radius: 0;
   }
 </style>
