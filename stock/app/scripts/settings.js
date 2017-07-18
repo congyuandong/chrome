@@ -46,3 +46,5 @@ Settings.getObject = function getObject(key) {
 
 	return JSON.parse(localStorage[key]);
 };
+
+window.Settings = Settings;

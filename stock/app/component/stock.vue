@@ -2,6 +2,7 @@
   <el-table
     :data="stocks"
     :gutter="20"
+    :row-class-name="showColor"
     style="width: 100%">
     <el-table-column
       prop="name"
@@ -38,6 +39,15 @@
   </el-table>
 </template>
 
+<style>
+  .red {
+    color: red;
+  }
+  .green {
+    color: green;
+  }
+</style>
+
 <script>
     export default {
       data() {
@@ -46,55 +56,76 @@
         };
       },
       mounted() {
-        this.pull();
-        setInterval(this.pull, 5000);
+        this.loadStocks();
+        setInterval(this.loadStocks, 5000);
       },
       methods: {
-        pull() {
+        showColor(row) {
+          if (row.changeAmt >= 0) {
+            return 'red';
+          }
+          return 'green';
+        },
+        loadStocks() {
           const _this = this;
-          _this.getStockInfo('sh000001', (x1) => {
-            _this.stocks = [x1];
+          Settings.setObject('STOCKS', [{code: 'sh000001'}, {code: 'sh600131'}]);
+
+          const stocks = Settings.getObject('STOCKS');
+          const stockCodes = stocks.map(s => s.code);
+
+          _this.getStocksFromSina(stockCodes.join(','), (stockObjs) => {
+            const stockList = [];
+            stockCodes.forEach(c => {
+              if (stockObjs[c]) {
+                stockList.push(stockObjs[c]);
+              }
+            });
+            _this.stocks = stockList;
           });
         },
-        getStockInfo(stockCode, f){
+        updateStocks() {
+
+        },
+        getStocksFromSina(stockCodes, f) {
 		      const xhr = new window.XMLHttpRequest();
 
-		      xhr.open("GET", "http://hq.sinajs.cn/list=" + stockCode, true);
+		      xhr.open("GET", "http://hq.sinajs.cn/list=" + stockCodes, true);
 		      xhr.onreadystatechange = () => {
-			      let stockInfo = {};
-			      let stockName = '';
+			      const stockInfo = {};
 
 			      if (xhr.readyState == 4) {
-				      let elements = xhr.responseText.split(/_|="|,|"/);
+			        const stockStrList = xhr.responseText.split('\n');
+			        for (let stockStr of stockStrList) {
+                let elements = stockStr.split(/_|="|,|"/);
+                if (elements.length > 5) {
+                  const stockCode = elements[2];
+                  stockInfo[stockCode] = {
+                    code: elements[2],
+                    name: elements[3],
+                    startPrice: parseFloat(elements[4]).toFixed(2),
+                    closePrice: parseFloat(elements[5]).toFixed(2),
+                    currentPrice: parseFloat(elements[6]).toFixed(2),
+                    maxPrice: parseFloat(elements[7]).toFixed(2),
+                    minPrice: parseFloat(elements[8]).toFixed(2),
+                    stockVolume: (parseInt(elements[11]) / 100).toFixed(),
+                    stockTurnover: (parseInt(elements[12]) / 10000).toFixed(),
+                    stockLastDate: elements[33],
+                    stockLastTime: elements[34],
+                    stockChangeAmt: "0.00",
+                    stockChangeRate: "0.00"
+                  };
 
-				      if (elements.length > 5) {
-						    stockInfo = {
-						      code: elements[2],
-						      name: elements[3],
-							    startPrice: parseFloat(elements[4]).toFixed(2),
-							    closePrice: parseFloat(elements[5]).toFixed(2),
-							    currentPrice: parseFloat(elements[6]).toFixed(2),
-							    maxPrice: parseFloat(elements[7]).toFixed(2),
-							    minPrice: parseFloat(elements[8]).toFixed(2),
-							    stockVolume: (parseInt(elements[11]) / 100).toFixed(),
-							    stockTurnover: (parseInt(elements[12]) / 10000).toFixed(),
-							    stockLastDate: elements[33],
-							    stockLastTime: elements[34],
-							    stockChangeAmt: "0.00",
-							    stockChangeRate: "0.00"
-						    };
-
-						    if (stockInfo.startPrice != 0) {
-							    stockInfo.changeAmt = parseFloat(stockInfo.currentPrice - stockInfo.closePrice).toFixed(2);
-							    stockInfo.changeRate = (parseFloat(stockInfo.changeAmt / stockInfo.closePrice)*100).toFixed(2);
-					  	  }
+                  if (stockInfo[stockCode].startPrice != 0) {
+                    stockInfo[stockCode].changeAmt = parseFloat(stockInfo[stockCode].currentPrice - stockInfo[stockCode].closePrice).toFixed(2);
+                    stockInfo[stockCode].changeRate = `${(parseFloat(stockInfo[stockCode].changeAmt / stockInfo[stockCode].closePrice)*100).toFixed(2)}%`;
+                  }
+                }
               }
-
 				      if (typeof f == "function") {
 					      f(stockInfo);
 				      }
 			      }
-		      }
+		      };
 		      xhr.send();
         }
       }
