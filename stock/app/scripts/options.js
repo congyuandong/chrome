@@ -7,6 +7,7 @@ import App from '../component/app.vue';
 
 import Options from '../component/options.vue';
 import Stock from '../component/stock.vue';
+import store from '../store';
 
 Vue.use(VueRouter);
 Vue.use(ElementUI);
@@ -29,5 +30,6 @@ const router = new VueRouter({
 
 const app = new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app');

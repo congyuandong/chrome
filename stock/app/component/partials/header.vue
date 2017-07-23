@@ -1,20 +1,40 @@
 <template>
-  <el-row class="header">
-    <el-menu theme="dark" default-active="1" mode="horizontal">
-      <el-menu-item index="1" class="title">❤&nbsp股票助手</el-menu-item>
-      <!--<router-link class="el-menu-item" to="/home">首页</router-link>-->
-      <!--<el-submenu index="2">-->
-        <!--<template slot="title">设置</template>-->
-        <!--<el-menu-item index="2-1"><a :href="admin" target="_blank">控制台</a></el-menu-item>-->
-        <!--<el-menu-item index="2-2">登出</el-menu-item>-->
-      <!--</el-submenu>-->
-    </el-menu>
-    <div class="line"></div>
-  </el-row>
+  <div class="header">
+    <el-row>
+      <el-menu theme="dark" default-active="1" mode="horizontal">
+        <h1 class="slogen">❤&nbsp股票助手</h1>
+        <el-button type="primary" class="stock" @click="showAddStock">新增自选</el-button>
+      </el-menu>
+      <div class="line"></div>
+    </el-row>
+    <add-stock-component></add-stock-component>
+  </div>
 </template>
 
-<style>
-  .header .el-menu {
-    border-radius: 0;
-  }
+<style lang="stylus">
+  .header
+    .el-menu
+      border-radius 0
+    .slogen
+      margin-left 28px
+      color white
+    .stock
+      position absolute
+      right 28px
+      top 12px
 </style>
+
+<script>
+  import AddStock from './add-stock.vue';
+
+  export default {
+    components: {
+      'add-stock-component': AddStock,
+    },
+    methods: {
+      showAddStock() {
+        this.$store.dispatch('show');
+      }
+    }
+  }
+</script>
