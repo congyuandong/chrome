@@ -1,8 +1,14 @@
 <template>
-  <el-dialog title="收货地址" :visible.sync="isVisible">
+  <el-dialog title="新增自选" :visible.sync="isVisible">
     <el-form :model="form">
-      <el-form-item label="活动名称" :label-width="formLabelWidth">
-        <el-input v-model="form.name" auto-complete="off"></el-input>
+      <el-form-item label="股票名称" :label-width="formLabelWidth">
+        <el-autocomplete
+          class="input"
+          v-model="form.name"
+          :fetch-suggestions="querySearch"
+          placeholder="股票名称或代码"
+          :trigger-on-focus="false"
+        ></el-autocomplete>
       </el-form-item>
       <el-form-item label="活动区域" :label-width="formLabelWidth">
         <el-select v-model="form.region" placeholder="请选择活动区域">
@@ -13,7 +19,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="hide">取 消</el-button>
-      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      <el-button type="primary" @click="hide">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -30,12 +36,16 @@
           resource: '',
           desc: ''
         },
-        formLabelWidth: '120px'
+        formLabelWidth: '100px'
       };
     },
     methods: {
       hide() {
         this.$store.dispatch('hide');
+      },
+      querySearch(queryString, cb) {
+        // 调用 callback 返回建议列表的数据
+        cb([]);
       }
     },
     computed: {
