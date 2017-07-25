@@ -44,8 +44,18 @@
         this.$store.dispatch('hide');
       },
       querySearch(queryString, cb) {
-        // 调用 callback 返回建议列表的数据
-        cb([]);
+        const regexp = /var suggestvalue="(.*)";/gi;
+        this.$http.get(`http://suggest3.sinajs.cn/suggest/key=${queryString}`).then(data => {
+          const match = regexp.exec(data.bodyText);
+          if (match) {
+            const stockStr = match[1];
+            const stockList = stockStr.split(';')
+
+          }
+        });
+        cb([{
+          value: '123', code: '456'
+        }]);
       }
     },
     computed: {

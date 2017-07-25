@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueResource from 'vue-resource';
 import ElementUI from 'element-ui';
 import 'normalize.css/normalize.css';
 import 'element-ui/lib/theme-default/index.css';
@@ -10,6 +11,7 @@ import Stock from '../component/stock.vue';
 import store from '../store';
 
 Vue.use(VueRouter);
+Vue.use(VueResource);
 Vue.use(ElementUI);
 
 const routes = [{
