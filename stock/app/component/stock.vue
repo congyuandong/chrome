@@ -1,43 +1,51 @@
 <template>
   <div>
     <el-table
-    :data="stocks"
-    :gutter="20"
-    :row-class-name="showColor"
-    style="width: 100%">
-    <el-table-column
-      prop="name"
-      label="股票名称">
-    </el-table-column>
-    <el-table-column
-      prop="code"
-      label="股票代码">
-    </el-table-column>
-    <el-table-column
-      prop="changeRate"
-      label="涨跌幅">
-    </el-table-column>
-    <el-table-column
-      prop="currentPrice"
-      label="当前价">
-    </el-table-column>
-    <el-table-column
-      prop="startPrice"
-      label="今开价">
-    </el-table-column>
-    <el-table-column
-      prop="closePrice"
-      label="昨收价">
-    </el-table-column>
-    <el-table-column
-      prop="maxPrice"
-      label="最高价">
-    </el-table-column>
-    <el-table-column
-      prop="minPrice"
-      label="最低价">
-    </el-table-column>
-  </el-table>
+      :data="stocks"
+      :gutter="20"
+      :row-class-name="showColor"
+      style="width: 100%">
+      <el-table-column
+        prop="name"
+        label="股票名称">
+      </el-table-column>
+      <el-table-column
+        prop="code"
+        label="股票代码">
+      </el-table-column>
+      <el-table-column
+        prop="changeRate"
+        label="涨跌幅">
+      </el-table-column>
+      <el-table-column
+        prop="currentPrice"
+        label="当前价">
+      </el-table-column>
+      <el-table-column
+        prop="startPrice"
+        label="今开价">
+      </el-table-column>
+      <el-table-column
+        prop="closePrice"
+        label="昨收价">
+      </el-table-column>
+      <el-table-column
+        prop="maxPrice"
+        label="最高价">
+      </el-table-column>
+      <el-table-column
+        prop="minPrice"
+        label="最低价">
+      </el-table-column>
+      <el-table-column
+        fixed="right"
+        label="操作"
+        width="100">
+        <template scope="scope">
+          <i class="el-icon-delete black" @click="delStock(scope.row.code)"></i>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -45,6 +53,12 @@
   .red {
     color: red;
   }
+
+  .black {
+    color: #48576a;
+    cursor: pointer;
+  }
+
   .green {
     color: green;
   }
@@ -70,9 +84,8 @@
       },
       loadStocks() {
         const _this = this;
-        Settings.setObject('STOCKS', [{code: 'sh000001'}, {code: 'sh600131'}]);
 
-        const stocks = Settings.getObject('STOCKS');
+        const stocks = this.$store.state.addStock.stocks;
         const stockCodes = stocks.map(s => s.code);
 
         _this.getStocksFromSina(stockCodes.join(','), (stockObjs) => {
@@ -84,9 +97,6 @@
           });
           _this.stocks = stockList;
         });
-      },
-      updateStocks() {
-
       },
       getStocksFromSina(stockCodes, f) {
         const xhr = new window.XMLHttpRequest();
@@ -129,6 +139,10 @@
           }
         };
         xhr.send();
+      },
+      delStock(code) {
+        this.$store.dispatch('update', this.$store.state.addStock.stocks.filter(s => s.code !== code));
+        this.loadStocks();
       }
     }
   };

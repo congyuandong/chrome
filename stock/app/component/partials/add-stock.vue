@@ -1,25 +1,26 @@
 <template>
   <el-dialog title="新增自选" :visible.sync="isVisible">
-    <el-form :model="form">
+    <el-form>
       <el-form-item label="股票名称" :label-width="formLabelWidth">
         <el-autocomplete
           class="input"
-          v-model="form.name"
           :fetch-suggestions="querySearch"
           placeholder="股票名称或代码"
           :trigger-on-focus="false"
+          v-model="value"
+          @select="handleSelect"
         ></el-autocomplete>
       </el-form-item>
-      <el-form-item label="活动区域" :label-width="formLabelWidth">
-        <el-select v-model="form.region" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
-        </el-select>
+      <el-form-item label="成本价" :label-width="formLabelWidth">
+        <el-input v-model="price"></el-input>
+      </el-form-item>
+      <el-form-item label="买入数量" :label-width="formLabelWidth">
+        <el-input v-model="amount" placeholder="单位:股"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="hide">取 消</el-button>
-      <el-button type="primary" @click="hide">确 定</el-button>
+      <el-button type="primary" @click="confirm">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -28,15 +29,12 @@
   export default {
     data() {
       return {
-        form: {
-          name: '',
-          region: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
-        formLabelWidth: '100px'
+        price: '',
+        amount: '',
+        value: '',
+        formLabelWidth: '100px',
+        code: '',
+        name: ''
       };
     },
     methods: {
@@ -45,17 +43,37 @@
       },
       querySearch(queryString, cb) {
         const regexp = /var suggestvalue="(.*)";/gi;
+        const stockArr = [];
         this.$http.get(`http://suggest3.sinajs.cn/suggest/key=${queryString}`).then(data => {
           const match = regexp.exec(data.bodyText);
           if (match) {
             const stockStr = match[1];
-            const stockList = stockStr.split(';')
-
+            const stockList = stockStr.split(';');
+            stockList.forEach(s => {
+              s = s.split(',');
+              if (s.length === 6) {
+                stockArr.push({
+                  value: `${s[4]}(${s[3]})`,
+                  code: s[3],
+                  name: s[4]
+                })
+              }
+            });
           }
+          cb(stockArr.slice(0, 5));
         });
-        cb([{
-          value: '123', code: '456'
-        }]);
+      },
+      handleSelect(item) {
+        Object.assign(this, item);
+      },
+      confirm() {
+        const stock = { code: this.code };
+        if (this.price) {
+          stock.amount = this.amount;
+          stock.price = this.price;
+        }
+        this.$store.dispatch('update', this.$store.state.addStock.stocks.concat([stock]));
+        this.hide();
       }
     },
     computed: {
