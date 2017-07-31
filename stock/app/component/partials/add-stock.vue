@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增自选" :visible.sync="isVisible">
+  <el-dialog title="新增自选" :visible="isVisible">
     <el-form>
       <el-form-item label="股票名称" :label-width="formLabelWidth">
         <el-autocomplete
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex';
+
   export default {
     data() {
       return {
@@ -38,9 +40,10 @@
       };
     },
     methods: {
-      hide() {
-        this.$store.dispatch('hide');
-      },
+      ...mapActions([
+        'hide',
+        'updateStock',
+      ]),
       querySearch(queryString, cb) {
         const regexp = /var suggestvalue="(.*)";/gi;
         const stockArr = [];
@@ -72,14 +75,14 @@
           stock.amount = this.amount;
           stock.price = this.price;
         }
-        this.$store.dispatch('update', this.$store.state.addStock.stocks.concat([stock]));
+        this.updateStock(this.$store.state.stocks.stocks.concat([stock]));
         this.hide();
       }
     },
     computed: {
-      isVisible() {
-        return this.$store.state.addStock.visible;
-      }
+      ...mapGetters([
+        'isVisible',
+      ])
     }
   };
 </script>
