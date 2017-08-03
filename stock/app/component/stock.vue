@@ -74,7 +74,7 @@
     },
     mounted() {
       this.updateData();
-      setInterval(this.updateData, 5000);
+      setInterval(this.updateData, 10000);
     },
     methods: {
       ...mapActions([
@@ -89,14 +89,15 @@
       },
       delStock(code) {
         this.updateStock(this.$store.state.stocks.stocks.filter(s => s.code !== code));
+        this.updateData();
       },
       upStock(code) {
         const stocks = this.$store.state.stocks.stocks;
         const index = stocks.findIndex(s => s.code === code);
         if (index > 0) {
           stocks[index] = stocks.splice(index - 1, 1, stocks[index])[0];
-          this.$store.dispatch('update', stocks);
-          this.loadStocks();
+          this.updateStock(stocks);
+          this.updateData();
         }
       }
     },

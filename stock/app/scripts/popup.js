@@ -1,7 +1,13 @@
 import Vue from 'vue';
-import App from '../component/app.vue';
+import ElementUI from 'element-ui';
+import 'normalize.css/normalize.css';
+import 'element-ui/lib/theme-default/index.css';
+import App from '../component/popup.vue';
+import store from '../store';
 
-var app = new Vue({
-  el:'#app',
-  render: h =>h(App)
-});
+Vue.use(ElementUI);
+
+const app = new Vue({
+  store,
+  render: h => h(App),
+}).$mount('#app');

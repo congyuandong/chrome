@@ -43,11 +43,12 @@
       ...mapActions([
         'hide',
         'updateStock',
+        'updateData',
       ]),
       querySearch(queryString, cb) {
         const regexp = /var suggestvalue="(.*)";/gi;
         const stockArr = [];
-        this.$http.get(`http://suggest3.sinajs.cn/suggest/key=${queryString}`).then(data => {
+        this.$http.get(`http://suggest3.sinajs.cn/suggest/type=11,12,13,14,15&key=${queryString}`).then(data => {
           const match = regexp.exec(data.bodyText);
           if (match) {
             const stockStr = match[1];
@@ -75,8 +76,9 @@
           stock.amount = this.amount;
           stock.price = this.price;
         }
-        this.updateStock(this.$store.state.stocks.stocks.concat([stock]));
         this.hide();
+        this.updateStock(this.$store.state.stocks.stocks.concat([stock]));
+        this.updateData();
       }
     },
     computed: {
