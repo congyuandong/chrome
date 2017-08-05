@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增自选" :visible="isVisible">
+  <el-dialog title="新增自选" :visible="isVisible" :before-close="close">
     <el-form>
       <el-form-item label="股票名称" :label-width="labelWidth">
         <el-autocomplete
@@ -58,6 +58,9 @@
         'updateStock',
         'updateData',
       ]),
+      close() {
+        this.hide();
+      },
       querySearch(queryString, cb) {
         const regexp = /var suggestvalue="(.*)";/gi;
         const stockArr = [];
