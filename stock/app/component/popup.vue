@@ -26,9 +26,11 @@
       </el-carousel>
     </el-row>
     <el-row>
-      <el-col :span="4" v-for="s of stocks" :key="s.code">
+      <el-col class="indicator" :span="4" v-for="s of stocks" :key="s.code">
         <div class="top">{{ s.name }}</div>
-        <div class="bottom">{{ s.code }}</div>
+        <div class="bottom">
+          <div class="inner">{{ s.currentPrice }} | {{ s.changeRate }}</div>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -39,15 +41,24 @@
     padding 2px;
   img
     width 100%;
-  .top
-    border 1px solid red;
-    background-color red;
-    color white;
-    border-radius 5px 5px 0 0;
-  .bottom
-    border 1px solid red;
-    color red;
-    border-radius 0 0 5px 5px;
+  .indicator
+    padding 2px;
+    text-align center;
+    white-space nowrap;
+    .top
+      border 1px solid red;
+      background-color red;
+      color white;
+      border-radius 5px 5px 0 0;
+    .bottom
+      border 1px solid red;
+      color red;
+      border-radius 0 0 5px 5px;
+      font-size 8px;
+      .inner
+        display flex;
+        justify-content center;
+        transform scale(0.7)
   .popup
     width 380px;
     min-height 300px;

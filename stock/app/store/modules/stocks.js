@@ -68,7 +68,7 @@ export default {
 
               if (stockInfo[stockCode].startPrice != 0) {
                 stockInfo[stockCode].changeAmt = parseFloat(stockInfo[stockCode].currentPrice - stockInfo[stockCode].closePrice).toFixed(2);
-                stockInfo[stockCode].changeRate = `${(parseFloat(stockInfo[stockCode].changeAmt / stockInfo[stockCode].closePrice) * 100).toFixed(2)}%`;
+                stockInfo[stockCode].changeRate = (parseFloat(stockInfo[stockCode].changeAmt / stockInfo[stockCode].closePrice) * 100).toFixed(2);
               }
             }
           }
