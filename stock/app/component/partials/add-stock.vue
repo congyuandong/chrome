@@ -1,21 +1,21 @@
 <template>
   <el-dialog title="新增自选" :visible="isVisible">
     <el-form>
-      <el-form-item label="股票名称" :label-width="formLabelWidth">
+      <el-form-item label="股票名称" :label-width="labelWidth">
         <el-autocomplete
           class="input"
           :fetch-suggestions="querySearch"
           placeholder="股票名称或代码"
           :trigger-on-focus="false"
-          v-model="value"
+          v-model="stock.value"
           @select="handleSelect"
         ></el-autocomplete>
       </el-form-item>
-      <el-form-item label="成本价" :label-width="formLabelWidth">
-        <el-input v-model="price"></el-input>
+      <el-form-item label="成本价" :label-width="labelWidth">
+        <el-input v-model="stock.price"></el-input>
       </el-form-item>
-      <el-form-item label="买入数量" :label-width="formLabelWidth">
-        <el-input v-model="amount" placeholder="单位:股"></el-input>
+      <el-form-item label="买入数量" :label-width="labelWidth">
+        <el-input v-model="stock.amount" placeholder="单位:股"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -31,13 +31,26 @@
   export default {
     data() {
       return {
-        price: '',
-        amount: '',
-        value: '',
-        formLabelWidth: '100px',
-        code: '',
-        name: ''
+        labelWidth: '100px',
+        stock: {
+          price: '',
+          amount: '',
+          value: '',
+          code: '',
+          name: ''
+        }
       };
+    },
+    watch: {
+      isVisible: function (val, oldVal) {
+        if (!val) {
+          this.stock.price = '';
+          this.stock.amount = '';
+          this.stock.value = '';
+          this.stock.code = '';
+          this.stock.name = '';
+        }
+      }
     },
     methods: {
       ...mapActions([
@@ -68,13 +81,13 @@
         });
       },
       handleSelect(item) {
-        Object.assign(this, item);
+        Object.assign(this.stock, item);
       },
       confirm() {
-        const stock = { code: this.code };
+        const stock = { code: this.stock.code };
         if (this.price) {
-          stock.amount = this.amount;
-          stock.price = this.price;
+          stock.amount = this.stock.amount;
+          stock.price = this.stock.price;
         }
         this.hide();
         this.updateStock(this.$store.state.stocks.stocks.concat([stock]));
