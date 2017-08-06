@@ -9,14 +9,28 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-carousel :autoplay=false arrow="never" indicator-position="none">
+      <el-carousel :autoplay=false arrow="never" indicator-position="none" ref="carousel">
         <el-carousel-item v-for="s of stocks" :key="s.code">
           <el-row>
-            <el-col :span="10">
-              {{ s.name }}
+            <el-col :span="10" class="detail">
+              <el-row class="price">{{ s.currentPrice }}</el-row>
+              <el-row>{{ s.changeAmt }} {{ s.changeRate }}</el-row>
+              <el-row>{{ s.stockLastDate }} {{ s.stockLastTime }}</el-row>
             </el-col>
             <el-col :span="14">
-              {{ s.code }}
+              <el-row>{{ s.name }} ({{ s.code }})</el-row>
+              <el-row>
+                <el-col :span="12">今　开：{{ s.startPrice }}</el-col>
+                <el-col :span="12">昨　收：{{ s.closePrice }}</el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">最　高：{{ s.maxPrice }}</el-col>
+                <el-col :span="12">最　低：{{ s.minPrice }}</el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">成交量：{{ s.stockVolume }}</el-col>
+                <el-col :span="12">成交额：{{ s.stockTurnover }}</el-col>
+              </el-row>
             </el-col>
           </el-row>
           <el-row>
@@ -25,11 +39,13 @@
         </el-carousel-item>
       </el-carousel>
     </el-row>
-    <el-row>
-      <el-col class="indicator" :span="4" v-for="s of stocks" :key="s.code">
-        <div :class="topClass(s.changeRate)">{{ s.name }}</div>
-        <div :class="bottomClass(s.changeRate)">
-          <div class="inner">{{ s.currentPrice | formatPrice }} {{ s.changeRate | formatRate }}</div>
+    <el-row class="footer">
+      <el-col :span="4" v-for="(s, index) of stocks" :key="s.code">
+        <div class="indicator" @click="setActive(index)">
+          <div :class="topClass(s.changeRate)">{{ s.name }}</div>
+          <div :class="bottomClass(s.changeRate)">
+            <div class="inner">{{ s.currentPrice | formatPrice }} {{ s.changeRate | formatRate }}</div>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -52,6 +68,12 @@
     padding 2px;
   img
     width 100%;
+  .detail
+    padding 5px;
+    text-align center;
+    border-right 1px solid #eee;
+    .price
+      font-size 40px;
   .indicator
     padding 2px;
     text-align center;
@@ -88,6 +110,8 @@
   .header
     margin 5px;
     border-bottom dashed 1px gray;
+  .footer
+    border-top dashed 1px gray;
 </style>
 
 <script>
@@ -100,12 +124,14 @@
     mounted() {
       this.updateData();
       setInterval(this.updateData, 10000);
-      console.log(this.stocks);
     },
     methods: {
       ...mapActions([
         'updateData',
       ]),
+      setActive(index) {
+        this.$refs.carousel.setActiveItem(index);
+      },
       topClass(rate) {
         return {
           top: true,
