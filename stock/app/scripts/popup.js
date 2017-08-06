@@ -7,6 +7,17 @@ import store from '../store';
 
 Vue.use(ElementUI);
 
+Vue.filter('formatPrice', (price) => {
+  return price > 1000 ? parseInt(price, 10) : price;
+});
+
+Vue.filter('formatRate', (rate) => {
+  if (!isNaN(rate)) {
+    return `| ${rate}`;
+  }
+  return '';
+});
+
 const app = new Vue({
   store,
   render: h => h(App),

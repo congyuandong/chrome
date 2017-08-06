@@ -9,7 +9,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-carousel :autoplay=false arrow="never">
+      <el-carousel :autoplay=false arrow="never" indicator-position="none">
         <el-carousel-item v-for="s of stocks" :key="s.code">
           <el-row>
             <el-col :span="10">
@@ -27,9 +27,9 @@
     </el-row>
     <el-row>
       <el-col class="indicator" :span="4" v-for="s of stocks" :key="s.code">
-        <div class="top">{{ s.name }}</div>
-        <div class="bottom">
-          <div class="inner">{{ s.currentPrice }} | {{ s.changeRate }}</div>
+        <div :class="topClass(s.changeRate)">{{ s.name }}</div>
+        <div :class="bottomClass(s.changeRate)">
+          <div class="inner">{{ s.currentPrice | formatPrice }} {{ s.changeRate | formatRate }}</div>
         </div>
       </el-col>
     </el-row>
@@ -37,6 +37,17 @@
 </template>
 
 <style lang="stylus">
+  top(color)
+    border 1px solid color;
+    background-color color;
+    color white;
+    border-radius 5px 5px 0 0;
+  bottom(color)
+    border 1px solid color;
+    color color;
+    border-radius 0 0 5px 5px;
+    font-size 8px;
+
   body
     padding 2px;
   img
@@ -45,20 +56,23 @@
     padding 2px;
     text-align center;
     white-space nowrap;
+    cursor pointer;
     .top
-      border 1px solid red;
-      background-color red;
-      color white;
-      border-radius 5px 5px 0 0;
+      top(black)
+    .top.red
+      top(red)
+    .top.green
+      top(green)
     .bottom
-      border 1px solid red;
-      color red;
-      border-radius 0 0 5px 5px;
-      font-size 8px;
-      .inner
-        display flex;
-        justify-content center;
-        transform scale(0.7)
+      bottom(black)
+    .bottom.red
+      bottom(red)
+    .bottom.green
+      bottom(green)
+    .inner
+      display flex;
+      justify-content center;
+      transform scale(0.7)
   .popup
     width 380px;
     min-height 300px;
@@ -92,11 +106,25 @@
       ...mapActions([
         'updateData',
       ]),
+      topClass(rate) {
+        return {
+          top: true,
+          red: rate >= 0,
+          green: rate < 0,
+        }
+      },
+      bottomClass(rate) {
+        return {
+          bottom: true,
+          red: rate >=0,
+          green: rate < 0,
+        }
+      }
     },
     computed: {
-      ...mapGetters({
-        'stocks': 'stockData',
-      })
+      stocks() {
+        return this.$store.getters.stockData.slice(0, 6);
+      },
     }
   }
 </script>

@@ -93,8 +93,11 @@
           stock.price = this.stock.price;
         }
         this.hide();
-        this.updateStock(this.$store.state.stocks.stocks.concat([stock]));
-        this.updateData();
+        const stocks = this.$store.state.stocks.stocks;
+        if (!stocks.find(s => s.code === stock.code)) {
+          this.updateStock(this.$store.state.stocks.stocks.concat([stock]));
+          this.updateData();
+        }
       }
     },
     computed: {

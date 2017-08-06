@@ -41,28 +41,28 @@
         label="操作"
         width="100">
         <template scope="scope">
-          <i class="el-icon-delete black" @click="delStock(scope.row.code)"></i>
-          <i class="el-icon-arrow-up black" @click="upStock(scope.row.code)"></i>
+          <i class="el-icon-delete action" @click="delStock(scope.row.code)"></i>
+          <i class="el-icon-arrow-up action" @click="upStock(scope.row.code)"></i>
         </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
 
-<style>
-  .red {
-    color: red;
-  }
+<style lang="stylus">
+  .red
+    color red;
 
-  .black {
-    color: #48576a;
-    cursor: pointer;
-    margin-right: 10px;
-  }
+  .green
+    color green;
 
-  .green {
-    color: green;
-  }
+  .black
+    color black;
+
+  .action
+    color #48576a;
+    cursor pointer;
+    margin-right 10px;
 </style>
 
 <script>
@@ -84,8 +84,10 @@
       showColor(row) {
         if (row.changeAmt >= 0) {
           return 'red';
+        } else if (row.changeAmt <= 0) {
+          return 'green';
         }
-        return 'green';
+        return 'black';
       },
       delStock(code) {
         this.updateStock(this.$store.state.stocks.stocks.filter(s => s.code !== code));
