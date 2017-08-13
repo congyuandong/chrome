@@ -4,6 +4,7 @@ import VueResource from 'vue-resource';
 import ElementUI from 'element-ui';
 import 'normalize.css/normalize.css';
 import 'element-ui/lib/theme-default/index.css';
+import '../styles/iconfont.css';
 import App from '../component/app.vue';
 
 import Options from '../component/options.vue';

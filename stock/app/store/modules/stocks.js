@@ -1,18 +1,23 @@
 import API from '../../api';
 
 export const ADD_STOCK = 'ADD_STOCK';
+export const ADD_ALERT = 'ADD_ALERT';
 export const UPDATE_STOCK = 'UPDATE_STOCK';
 export const UPDATE_DATA = 'UPDATE_DATA';
 
 export default {
   state: {
-    visible: false,
+    showAdd: false,
+    showAlert: false,
     stocks: JSON.parse(localStorage.getItem('STOCKS')) || [{ code: 'sh000001' }],
     stockData: {},
   },
   getters: {
-    isVisible(state) {
-      return state.visible;
+    showAdd(state) {
+      return state.showAdd;
+    },
+    showAlert(state)  {
+      return state.showAlert;
     },
     stockData(state) {
       const stockList = [];
@@ -27,7 +32,7 @@ export default {
   },
   mutations: {
     [ADD_STOCK](state, isShow) {
-      state.visible = isShow;
+      state.showAdd = isShow;
     },
     [UPDATE_STOCK](state, stocks) {
       state.stocks = stocks;
@@ -77,11 +82,11 @@ export default {
       });
     },
     // show add stock dialog
-    show({ commit }) {
-      commit(ADD_STOCK, true);
+    show({ commit }, obj) {
+      commit(obj, true);
     },
-    hide({ commit }) {
-      commit(ADD_STOCK, false);
+    hide({ commit }, obj) {
+      commit(obj, false);
     },
   },
 };

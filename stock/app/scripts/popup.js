@@ -18,6 +18,13 @@ Vue.filter('formatRate', (rate) => {
   return '';
 });
 
+Vue.filter('formatRateBracket', (rate) => {
+  if (!isNaN(rate)) {
+    return ` (${rate}%)`;
+  }
+  return '';
+});
+
 const app = new Vue({
   store,
   render: h => h(App),

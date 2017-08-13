@@ -25,15 +25,20 @@
 </style>
 
 <script>
+  import { mapActions } from 'vuex';
   import AddStock from './add-stock.vue';
+  import { ADD_STOCK } from '../../store/modules/stocks';
 
   export default {
     components: {
       'add-stock-component': AddStock,
     },
     methods: {
+      ...mapActions([
+        'show',
+      ]),
       showAddStock() {
-        this.$store.dispatch('show');
+        this.show(ADD_STOCK);
       }
     }
   }

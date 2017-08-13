@@ -39,10 +39,11 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="100">
+        width="120">
         <template scope="scope">
-          <i class="el-icon-delete action" @click="delStock(scope.row.code)"></i>
-          <i class="el-icon-arrow-up action" @click="upStock(scope.row.code)"></i>
+          <i class="iconfont icon-el-icon-delete action" @click="delStock(scope.row.code)"></i>
+          <i class="iconfont icon-arrow_up action" @click="upStock(scope.row.code)"></i>
+          <i class="iconfont icon-alert action" @click="alert(scope.row.code)"></i>
         </template>
       </el-table-column>
     </el-table>
@@ -62,7 +63,6 @@
   .action
     color #48576a;
     cursor pointer;
-    margin-right 10px;
 </style>
 
 <script>

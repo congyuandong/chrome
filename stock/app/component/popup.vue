@@ -11,13 +11,13 @@
     <el-row>
       <el-carousel :autoplay=false arrow="never" indicator-position="none" ref="carousel">
         <el-carousel-item v-for="s of stocks" :key="s.code">
-          <el-row>
-            <el-col :span="10" class="detail">
-              <el-row class="price">{{ s.currentPrice }}</el-row>
-              <el-row>{{ s.changeAmt }} {{ s.changeRate }}</el-row>
+          <el-row class="detail">
+            <el-col :span="10" class="left">
+              <el-row :class="{up: s.changeAmt >= 0, down: s.changeAmt <= 0, price: true}">{{ s.currentPrice }}</el-row>
+              <el-row :class="{up: s.changeAmt >= 0, down: s.changeAmt <= 0}">{{ s.changeAmt }}{{ s.changeRate | formatRateBracket }}</el-row>
               <el-row>{{ s.stockLastDate }} {{ s.stockLastTime }}</el-row>
             </el-col>
-            <el-col :span="14">
+            <el-col :span="14" class="right">
               <el-row>{{ s.name }} ({{ s.code }})</el-row>
               <el-row>
                 <el-col :span="12">今　开：{{ s.startPrice }}</el-col>
@@ -68,10 +68,23 @@
     padding 2px;
   img
     width 100%;
+
+  .up
+    color red;
+  .down
+    color green;
+
   .detail
-    padding 5px;
-    text-align center;
-    border-right 1px solid #eee;
+    border-bottom 1px solid #eee;
+    padding-bottom 2px;
+    .left
+      padding 5px;
+      text-align center;
+      border-right 1px solid #eee;
+    .right
+      padding-left 2px;
+      .el-row
+        margin 5px 0;
     .price
       font-size 40px;
   .indicator

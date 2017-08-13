@@ -1,16 +1,6 @@
 <template>
-  <el-dialog title="新增自选" :visible="showAdd" :before-close="close">
+  <el-dialog title="监控设置" :visible="showAlert" :before-close="close">
     <el-form>
-      <el-form-item label="股票名称" :label-width="labelWidth">
-        <el-autocomplete
-          class="input"
-          :fetch-suggestions="querySearch"
-          placeholder="股票名称或代码"
-          :trigger-on-focus="false"
-          v-model="stock.value"
-          @select="handleSelect"
-        ></el-autocomplete>
-      </el-form-item>
       <el-form-item label="成本价" :label-width="labelWidth">
         <el-input v-model="stock.price"></el-input>
       </el-form-item>
@@ -27,7 +17,6 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
-  import { ADD_STOCK } from '../../store/modules/stocks';
 
   export default {
     data() {
@@ -43,7 +32,7 @@
       };
     },
     watch: {
-      showAdd: function (val, oldVal) {
+      showAlert: function (val, oldVal) {
         if (!val) {
           this.stock.price = '';
           this.stock.amount = '';
@@ -60,29 +49,7 @@
         'updateData',
       ]),
       close() {
-        this.hide(ADD_STOCK);
-      },
-      querySearch(queryString, cb) {
-        const regexp = /var suggestvalue="(.*)";/gi;
-        const stockArr = [];
-        this.$http.get(`http://suggest3.sinajs.cn/suggest/type=11,12,13,14,15&key=${queryString}`).then(data => {
-          const match = regexp.exec(data.bodyText);
-          if (match) {
-            const stockStr = match[1];
-            const stockList = stockStr.split(';');
-            stockList.forEach(s => {
-              s = s.split(',');
-              if (s.length === 6) {
-                stockArr.push({
-                  value: `${s[4]}(${s[3]})`,
-                  code: s[3],
-                  name: s[4]
-                })
-              }
-            });
-          }
-          cb(stockArr.slice(0, 5));
-        });
+        this.hide();
       },
       handleSelect(item) {
         Object.assign(this.stock, item);
@@ -93,7 +60,7 @@
           stock.amount = this.stock.amount;
           stock.price = this.stock.price;
         }
-        this.hide(ADD_STOCK);
+        this.hide();
         const stocks = this.$store.state.stocks.stocks;
         if (!stocks.find(s => s.code === stock.code)) {
           this.updateStock(this.$store.state.stocks.stocks.concat([stock]));
@@ -103,7 +70,7 @@
     },
     computed: {
       ...mapGetters([
-        'showAdd',
+        'showAlert',
       ])
     }
   };
