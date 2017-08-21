@@ -8,6 +8,7 @@
       <div class="line"></div>
     </el-row>
     <add-stock-component></add-stock-component>
+    <add-alert-component></add-alert-component>
   </div>
 </template>
 
@@ -27,11 +28,13 @@
 <script>
   import { mapActions } from 'vuex';
   import AddStock from './add-stock.vue';
+  import AddAlert from './alert.vue';
   import { ADD_STOCK } from '../../store/modules/stocks';
 
   export default {
     components: {
       'add-stock-component': AddStock,
+      'add-alert-component': AddAlert,
     },
     methods: {
       ...mapActions([

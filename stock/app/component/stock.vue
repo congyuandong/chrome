@@ -67,6 +67,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
+  import { ADD_ALERT } from '../store/modules/stocks';
 
   export default {
     data() {
@@ -80,6 +81,8 @@
       ...mapActions([
         'updateData',
         'updateStock',
+        'show',
+        'setCurrent',
       ]),
       showColor(row) {
         if (row.changeAmt >= 0) {
@@ -101,6 +104,10 @@
           this.updateStock(stocks);
           this.updateData();
         }
+      },
+      alert(code) {
+        this.setCurrent(code);
+        this.show(ADD_ALERT);
       }
     },
     computed: {

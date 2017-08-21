@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增自选" :visible="showAdd" :before-close="close">
+  <el-dialog title="新增自选" :visible="showStock" :before-close="close">
     <el-form>
       <el-form-item label="股票名称" :label-width="labelWidth">
         <el-autocomplete
@@ -19,7 +19,7 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="hide">取 消</el-button>
+      <el-button @click="close">取 消</el-button>
       <el-button type="primary" @click="confirm">确 定</el-button>
     </div>
   </el-dialog>
@@ -43,7 +43,7 @@
       };
     },
     watch: {
-      showAdd: function (val, oldVal) {
+      showStock: function (val, oldVal) {
         if (!val) {
           this.stock.price = '';
           this.stock.amount = '';
@@ -103,7 +103,7 @@
     },
     computed: {
       ...mapGetters([
-        'showAdd',
+        'showStock',
       ])
     }
   };

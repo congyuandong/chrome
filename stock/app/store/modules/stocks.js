@@ -4,17 +4,22 @@ export const ADD_STOCK = 'ADD_STOCK';
 export const ADD_ALERT = 'ADD_ALERT';
 export const UPDATE_STOCK = 'UPDATE_STOCK';
 export const UPDATE_DATA = 'UPDATE_DATA';
+export const CURRENT_STOCK = 'CURRENT_STOCK';
 
 export default {
   state: {
-    showAdd: false,
+    showStock: false,
     showAlert: false,
+    current: 'sh000001',
     stocks: JSON.parse(localStorage.getItem('STOCKS')) || [{ code: 'sh000001' }],
     stockData: {},
   },
   getters: {
-    showAdd(state) {
-      return state.showAdd;
+    showStock(state) {
+      return state.showStock;
+    },
+    code(state) {
+      return state.code;
     },
     showAlert(state)  {
       return state.showAlert;
@@ -28,11 +33,21 @@ export default {
         }
       });
       return stockList;
+    },
+    current(state) {
+      return state.stockData[state.current];
+    },
+    currentPrice(state) {
+      const data = state.stockData[state.current] || { currentPrice: 0 };
+      return data.currentPrice;
     }
   },
   mutations: {
     [ADD_STOCK](state, isShow) {
-      state.showAdd = isShow;
+      state.showStock = isShow;
+    },
+    [ADD_ALERT](state, isShow) {
+      state.showAlert = isShow;
     },
     [UPDATE_STOCK](state, stocks) {
       state.stocks = stocks;
@@ -40,7 +55,10 @@ export default {
     },
     [UPDATE_DATA](state, stockData) {
       state.stockData = stockData;
-    }
+    },
+    [CURRENT_STOCK](state, code) {
+      state.current = code;
+    },
   },
   actions: {
     updateStock({ commit }, stocks) {
@@ -81,12 +99,14 @@ export default {
         commit(UPDATE_DATA, stockInfo);
       });
     },
-    // show add stock dialog
     show({ commit }, obj) {
       commit(obj, true);
     },
     hide({ commit }, obj) {
       commit(obj, false);
+    },
+    setCurrent({ commit }, code) {
+      commit(CURRENT_STOCK, code);
     },
   },
 };
