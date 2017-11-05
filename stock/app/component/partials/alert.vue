@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="监控设置" :visible="showAlert" :before-close="close">
+  <el-dialog title="监控设置" :visible="showAlert">
     <el-form>
       <el-form-item label="当前价格" :label-width="labelWidth">
         <span v-text="currentPrice"></span>
@@ -40,43 +40,34 @@
         }
       };
     },
-    watch: {
-      showAlert: function (val, oldVal) {
-        if (!val) {
-          this.stock.price = '';
-          this.stock.amount = '';
-          this.stock.low = '';
-          this.stock.high = '';
-        }
-      }
-    },
     methods: {
       ...mapActions([
         'hide',
+        'updateStock',
+        'updateData',
       ]),
       close() {
+        this.stock = {};
         this.hide(ADD_ALERT);
       },
-      handleSelect(item) {
-        Object.assign(this.stock, item);
-      },
       confirm() {
-        const stock = { code: this.stock.code };
-        if (this.price) {
-          stock.amount = this.stock.amount;
-          stock.price = this.stock.price;
-        }
-        this.hide();
+        console.log(this.stock);
+        const stock = this.stock;
         const stocks = this.$store.state.stocks.stocks;
-        if (!stocks.find(s => s.code === stock.code)) {
-          this.updateStock(this.$store.state.stocks.stocks.concat([stock]));
-          this.updateData();
-        }
+        this.updateStock(stocks.map(s => {
+          if (s.code === stock.code) {
+            return Object.assign(s, stock);
+          }
+          return s;
+        }));
+        this.updateData();
+        this.hide(ADD_ALERT);
       }
     },
     computed: {
       ...mapGetters([
         'showAlert',
+        'current',
         'currentPrice',
       ]),
     }
