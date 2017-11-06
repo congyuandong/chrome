@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="监控设置" :visible="showAlert">
+  <el-dialog title="监控设置" :visible="showAlert" :before-close="close">
     <el-form>
       <el-form-item label="当前价格" :label-width="labelWidth">
         <span v-text="currentPrice"></span>
@@ -52,7 +52,7 @@
       },
       confirm() {
         console.log(this.stock);
-        const stock = this.stock;
+        const stock = Object.assign(this.stock, { code: this.currentStock.code });
         const stocks = this.$store.state.stocks.stocks;
         this.updateStock(stocks.map(s => {
           if (s.code === stock.code) {
@@ -67,7 +67,7 @@
     computed: {
       ...mapGetters([
         'showAlert',
-        'current',
+        'currentStock',
         'currentPrice',
       ]),
     }

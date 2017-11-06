@@ -34,7 +34,7 @@ export default {
       });
       return stockList;
     },
-    current(state) {
+    currentStock(state) {
       return state.stockData[state.current];
     },
     currentPrice(state) {
