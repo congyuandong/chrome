@@ -1,7 +1,7 @@
 <template>
   <div class="popup">
     <el-row class="header">
-      <el-col :span="12" class="slogen">❤&nbsp股票助手</el-col>
+      <el-col :span="12" class="slogen">❤&nbsp理财助手</el-col>
       <el-col :span="12" class="link">
         <span>
           <a href="">反馈</a> | <a href="/pages/options.html" target="_blank">设置</a>
@@ -134,8 +134,10 @@
     data: function () {
       return {}
     },
-    mounted() {
+    created() {
       this.updateData();
+    },
+    mounted() {
       setInterval(this.updateData, 10000);
     },
     methods: {
