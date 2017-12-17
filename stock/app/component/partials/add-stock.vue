@@ -28,6 +28,7 @@
 <script>
   import { mapGetters, mapActions } from 'vuex';
   import { ADD_STOCK } from '../../store/modules/stocks';
+  import API from '../../api';
 
   export default {
     data() {
@@ -65,19 +66,20 @@
       querySearch(queryString, cb) {
         const regexp = /var suggestvalue="(.*)";/gi;
         const stockArr = [];
-        this.$http.get(`http://suggest3.sinajs.cn/suggest/type=11,12,13,14,15&key=${queryString}`).then(data => {
+        API.getSuggest('ALL', queryString).then(data => {
           const match = regexp.exec(data.bodyText);
           if (match) {
             const stockStr = match[1];
             const stockList = stockStr.split(';');
             stockList.forEach(s => {
               s = s.split(',');
-              if (s.length === 6) {
+              if (s.length >= 6) {
                 stockArr.push({
                   value: `${s[4]}(${s[3]})`,
+                  type: s[1],
                   code: s[3],
-                  name: s[4]
-                })
+                  name: s[4],
+                });
               }
             });
           }
