@@ -13,6 +13,8 @@
 
 .icon-arrow_up:before { content: "\e6ee"; }
 
+.icon-stock:before { content: "\e73d"; }
+
 .icon-el-icon-delete:before { content: "\e618"; }
 
 .icon-alert:before { content: "\e621"; }
