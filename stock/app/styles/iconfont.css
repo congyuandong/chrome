@@ -1,6 +1,14 @@
 @font-face {font-family: "iconfont";
-  src: url('../fonts/iconfont/iconfont.woff?t=1502255782922') format('woff'), /* chrome, firefox */
-  url('../fonts/iconfont/iconfont.ttf?t=1502255782922') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  src: url('../fonts/iconfont/iconfont.woff') format('woff'),
+  url('../fonts/iconfont/iconfont.ttf') format('truetype');
+}
+
+[class^="el-icon-font"], [class*=" el-icon-font"] {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .iconfont {
@@ -11,11 +19,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-arrow_up:before { content: "\e6ee"; }
+.el-icon-font-up:before { content: "\e6ee"; }
 
-.icon-stock:before { content: "\e73d"; }
+.el-icon-font-stock:before { content: "\e73d"; }
 
-.icon-el-icon-delete:before { content: "\e618"; }
+.el-icon-font-delete:before { content: "\e618"; }
 
-.icon-alert:before { content: "\e621"; }
-
+.el-icon-font-alert:before { content: "\e621"; }

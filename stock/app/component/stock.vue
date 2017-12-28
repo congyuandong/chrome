@@ -41,9 +41,9 @@
         label="操作"
         width="120">
         <template scope="scope">
-          <i class="iconfont icon-el-icon-delete action" @click="delStock(scope.row.code)"></i>
-          <i class="iconfont icon-arrow_up action" @click="upStock(scope.row.code)"></i>
-          <i class="iconfont icon-alert action" @click="alert(scope.row.code)"></i>
+          <i class="el-icon-font-delete action" @click="delStock(scope.row.code)"></i>
+          <i class="el-icon-font-up action" @click="upStock(scope.row.code)"></i>
+          <i class="el-icon-font-alert action" @click="alert(scope.row.code)"></i>
         </template>
       </el-table-column>
     </el-table>

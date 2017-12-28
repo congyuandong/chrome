@@ -110,7 +110,7 @@
       transform scale(0.7)
   .popup
     width 380px;
-    min-height 300px;
+    height 360px;
 
     .slogen
       font-size 16px;

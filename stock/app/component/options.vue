@@ -4,7 +4,7 @@
     <el-row class="tac">
       <el-col :span="4" class="menu">
         <el-menu default-active="1" router class="menu">
-          <el-menu-item index="/stock"><i class="icon iconfont icon-stock"></i>股票</el-menu-item>
+          <el-menu-item index="/stock"><i class="el-icon-font-stock"></i>股票</el-menu-item>
           <el-menu-item index="/setting"><i class="el-icon-setting"></i>设置</el-menu-item>
         </el-menu>
       </el-col>
