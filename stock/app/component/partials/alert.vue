@@ -5,7 +5,7 @@
         <span v-text="currentPrice"></span>
       </el-form-item>
       <el-form-item label="上破价" :label-width="labelWidth">
-        <el-input v-model="stock.high"></el-input>
+        <el-input v-model="stock.high" :value="stock.high"></el-input>
       </el-form-item>
       <el-form-item label="下破价" :label-width="labelWidth">
         <el-input v-model="stock.low"></el-input>
@@ -32,12 +32,13 @@
     data() {
       return {
         labelWidth: '100px',
+        current: {},
         stock: {
           price: '',
           amount: '',
           low: '',
           high: '',
-        }
+        },
       };
     },
     methods: {
@@ -70,6 +71,12 @@
         'currentStock',
         'currentPrice',
       ]),
+    },
+    watch: {
+//      currentStock: function(stock) {
+//        console.log(stock);
+//        this.current = stock;
+//      },
     }
   };
 </script>

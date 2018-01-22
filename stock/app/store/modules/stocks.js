@@ -35,7 +35,7 @@ export default {
       return stockList;
     },
     currentStock(state) {
-      return state.stockData[state.current];
+      return Object.assign({}, state.stockData[state.current], stocks.find(s = s.code === state.current));
     },
     currentPrice(state) {
       const data = state.stockData[state.current] || { currentPrice: 0 };

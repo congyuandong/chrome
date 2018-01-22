@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <el-header>
     <el-row>
       <el-menu theme="dark" default-active="1" mode="horizontal">
         <h1 class="slogen">❤&nbsp理财助手</h1>
@@ -9,7 +9,7 @@
     </el-row>
     <add-stock-component></add-stock-component>
     <add-alert-component></add-alert-component>
-  </div>
+  </el-header>
 </template>
 
 <style lang="stylus">
@@ -26,10 +26,10 @@
 </style>
 
 <script>
-  import { mapActions } from 'vuex';
+  import {mapActions} from 'vuex';
   import AddStock from './add-stock.vue';
   import AddAlert from './alert.vue';
-  import { ADD_STOCK } from '../../store/modules/stocks';
+  import {ADD_STOCK} from '../../store/modules/stocks';
 
   export default {
     components: {

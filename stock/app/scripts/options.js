@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 import ElementUI from 'element-ui';
 import 'normalize.css/normalize.css';
-import 'element-ui/lib/theme-default/index.css';
+import 'element-ui/lib/theme-chalk/index.css';
 import '../styles/iconfont.css';
 import App from '../component/app.vue';
 
@@ -14,6 +14,9 @@ import store from '../store';
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(ElementUI);
+
+Vue.config.devtools = true;
+Vue.config.debug = true;
 
 const routes = [{
   path: '/',
