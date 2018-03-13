@@ -1,19 +1,18 @@
 <template>
-  <el-header>
-    <el-row>
-      <el-menu theme="dark" default-active="1" mode="horizontal">
-        <h1 class="slogen">❤&nbsp理财助手</h1>
-        <el-button type="primary" class="stock" @click="showAddStock">新增自选</el-button>
-      </el-menu>
-      <div class="line"></div>
-    </el-row>
+  <el-row>
+    <el-menu theme="dark" default-active="1" mode="horizontal">
+      <h1 class="slogen">❤&nbsp理财助手</h1>
+      <el-button type="primary" class="stock" @click="showAddStock">新增自选</el-button>
+    </el-menu>
+    <div class="line"></div>
     <add-stock-component></add-stock-component>
     <add-alert-component></add-alert-component>
-  </el-header>
+  </el-row>
 </template>
 
 <style lang="stylus">
-  .header
+  .el-header
+    background-color #b3c0d1
     .el-menu
       border-radius 0
     .slogen

@@ -40,7 +40,7 @@
       <el-table-column
         label="操作"
         width="120">
-        <template scope="scope">
+        <template slot-scope="scope">
           <i class="el-icon-font-delete action" @click="delStock(scope.row.code)"></i>
           <i class="el-icon-font-up action" @click="upStock(scope.row.code)"></i>
           <i class="el-icon-font-alert action" @click="alert(scope.row.code)"></i>

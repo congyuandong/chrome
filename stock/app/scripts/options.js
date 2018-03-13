@@ -1,7 +1,16 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
-import ElementUI from 'element-ui';
+import {
+  Container,
+  Header,
+  Aside,
+  Main,
+  Menu,
+  MenuItem,
+  Table,
+  TableColumn,
+} from 'element-ui';
 import 'normalize.css/normalize.css';
 import 'element-ui/lib/theme-chalk/index.css';
 import '../styles/iconfont.css';
@@ -13,7 +22,14 @@ import store from '../store';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
-Vue.use(ElementUI);
+Vue.use(Menu);
+Vue.use(Container);
+Vue.use(Header);
+Vue.use(Aside);
+Vue.use(Main);
+Vue.use(MenuItem);
+Vue.use(Table);
+Vue.use(TableColumn);
 
 Vue.config.devtools = true;
 Vue.config.debug = true;

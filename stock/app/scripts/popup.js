@@ -1,11 +1,14 @@
 import Vue from 'vue';
-import ElementUI from 'element-ui';
+import { Row, Col, Carousel, CarouselItem } from 'element-ui';
 import 'normalize.css/normalize.css';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from '../component/popup.vue';
 import store from '../store';
 
-Vue.use(ElementUI);
+Vue.use(Row);
+Vue.use(Col);
+Vue.use(Carousel);
+Vue.use(CarouselItem);
 
 Vue.filter('formatPrice', (price) => {
   return price > 1000 ? parseInt(price, 10) : price;
